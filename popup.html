@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+body {
+    font-family: sans-serif;
+    padding: 10px;
+}
+
+#dropzone {
+    border: 2px dashed #aaa;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+select,
+input,
+button {
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#preview {
+    margin-top: 10px;
+    display: block;
+    border: 1px solid #ccc;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+#fileInput {
+    display: none;
+}
+
+#announce {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+}
+
+.tabs {
+    display: flex;
+    margin-top: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.tab {
+    padding: 8px 12px;
+    cursor: pointer;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    margin-right: 5px;
+    border-radius: 4px 4px 0 0;
+}
+
+.tab.active {
+    background: white;
+    border-bottom: 1px solid white;
+    margin-bottom: -1px;
+}
+
+.tab-content {
+    display: none;
+    padding: 10px 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+#customFaviconsList {
+    overflow-y: auto;
+    border: 1px solid #eee;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.favicon-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.favicon-item:last-child {
+    border-bottom: none;
+}
+
+.favicon-item img {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+}
+
+.favicon-item .hostname {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.favicon-item .remove-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 5px;
+    cursor: pointer;
+    width: auto;
+    margin-top: 0;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#useRegex {
+    width: auto;
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+label {
+    font-size: 14px;
+}
+        </style>
+    </head>
+    <body id="body">
+        <div id="announce"></div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="create">Create</div>
+            <div class="tab" data-tab="manage">Manage</div>
+        </div>
+
+        <div id="createTab" class="tab-content active">
+            <details>
+                <summary>
+                    <em>Instructions</em>
+                </summary>
+            This extension does two things:
+            <strong>change favicons locally</strong>, and
+            <strong>create bookmarks with custom favicons</strong>. <br/> <br/>
+            You'd think that changing a favicon for a site would also change it
+            for the bookmark, but for some reason Firefox doesn't work that
+            way. For local favicons, you can change the favicon for a single
+            site, or for a RegEx match to target multiple URLs.
+            <br/> <br/>
+            Custom bookmarks use a (somewhat roundabout) solution of directing
+            through an AWS lambda service that will serve your custom favicon
+            and redirect to your target site. No logs are kept, and the cache
+            policy is set so they should work offline and your browser should
+            only have to send a request to the lambda instance once per year.
+            <br/> <br/>
+            For longer URLs, you may run into a HTTP 431
+            <em>Request Header Fields Too Large</em>. This is because the server is
+            stateless; the favicon and target URL are passed in with every request.
+            To get around this, use a smaller favicon size.
+            </details>
+            <div id="dropzone">Drag image here or click to select</div>
+            <input type="file" id="fileInput" accept="image/*" />
+            <select id="size">
+                <option value="16">16x16</option>
+                <option value="32" selected>32x32</option>
+                <option value="64">64x64</option>
+            </select>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="useRegex">
+                <label for="useRegex">Use regex pattern</label>
+            </div>
+
+            <input id="urlPattern" type="text" placeholder="URL or pattern" />
+            <img id="preview" alt="Preview" />
+            <div class="button-group">
+                <button id="localFaviconBtn">Change Local Favicon</button>
+                <input id="title" type="text" placeholder="Bookmark title" />
+                <br>
+                <br>
+                <button id="bookmarkBtn">Create Bookmark</button>
+                <!-- <button id="uniqueBtn">Make Unique</button> -->
+            </div>
+        </div>
+
+        <div id="manageTab" class="tab-content">
+            <h3>Custom Favicons</h3>
+            <div id="customFaviconsList"></div>
+        </div>
+
+        <script src="popup.js"></script>
+    </body>
+</html>
