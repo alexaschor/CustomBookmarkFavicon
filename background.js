@@ -58,6 +58,29 @@
         }
     }
 
+    function intToBase26(num) {
+        if (num === 0) return "a"; // handle zero explicitly
+
+        let result = "";
+        while (num > 0) {
+            const remainder = num % 26;
+            result = String.fromCharCode(97 + remainder) + result;
+            num = Math.floor(num / 26);
+        }
+        return result;
+    }
+
+    function hashPrefix(url) {
+        let hash = 0;
+        for (let i = 0; i < url.length; i++) {
+            const char = url.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+
+        return intToBase26(Math.abs(hash));
+    }
+
     async function makeBookmarksUnique() {
         try {
 
@@ -89,24 +112,12 @@
                 return { success: true, updated: 0 };
             }
 
-            // Generate unique subdomains
-            function alphaID(index) {
-                let result = '';
-                let num = index;
-                do {
-                    result = String.fromCharCode(97 + (num % 26)) + result;
-                    num = Math.floor(num / 26);
-                } while (num > 0);
-                return result;
-            }
-
-
-            let updatedCount = 0;
             for (let i = 0; i < relayBookmarks.length; i++) {
                 const bookmark = relayBookmarks[i];
-
                 const originalUrl = new URL(bookmark.url);
-                const subdomain = alphaID(i);
+                const icon = originalUrl.searchParams.get("p");
+
+                const subdomain = hashPrefix(icon);
 
                 // Create new URL with unique subdomain
                 const newUrl = new URL(bookmark.url);
@@ -117,16 +128,11 @@
                     url: newUrl.toString()
                 });
 
-                updatedCount++;
                 console.log(`Updated bookmark "${bookmark.title}" from ${originalUrl.hostname} to ${newUrl.hostname}`);
             }
 
-            console.log(`Successfully updated ${updatedCount} bookmarks with unique subdomains`);
-            return { success: true, updated: updatedCount };
-
         } catch (err) {
             console.error('Error in makeBookmarksUnique:', err);
-            return { success: false, error: err.message };
         }
     }
 

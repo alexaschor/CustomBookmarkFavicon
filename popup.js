@@ -24,7 +24,7 @@ function announce(text, bgColor, textColor) {
 
     setTimeout(function() {
         announceBar.innerText = "";
-    }, 1000);
+    }, 4000);
 }
 
 // Helper: load file and resize
@@ -228,8 +228,8 @@ bookmarkBtn.addEventListener('click', async () => {
 });
 
 
-uniqueBtn.addEventListener('click', async () => {
-    await browser.runtime.sendMessage({
-      action:      "makeUnique",
-    });
-});
+//  uniqueBtn.addEventListener('click', async () => {
+//      await browser.runtime.sendMessage({
+//        action:      "makeUnique",
+//      });
+// });
