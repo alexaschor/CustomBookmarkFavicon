@@ -7,6 +7,7 @@ You can install this add-on from the official `addons.mozilla.org` listing: [Cus
 ## About
 
 <p align="center"><img alt="tabs" style="display:inline-block;margin:0 auto" src="https://github.com/user-attachments/assets/4c035567-072a-48e7-854d-2329ba3020a2" /></p>
+
 Many users like to use **custom favicons** to visually identify common sites, for instance to differentiate between email accounts or to make a certain page stand out in the tab bar. There's plenty of extensions that do this, but none support the **bookmarks bar** because of the way that Firefox fetches bookmark favicons.
 
 This extension provides the same functionality as those other extensions (with the addition of supporting arbitrary regular expressions to match URLs), but **also supports bookmarks** via the usage of a stateless AWS Lambda API (hosted by extension author at 0xA.click) that will serve your custom favicon and redirect to your target page.
