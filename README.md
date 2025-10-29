@@ -1,5 +1,8 @@
 # Custom Bookmark Favicon - Firefox Add-on
-![Mozilla Add-on Version](https://img.shields.io/amo/v/custom-bookmark-favicon) ![Mozilla Add-on Downloads](https://img.shields.io/amo/dw/custom-bookmark-favicon) ![Mozilla Add-on Stars](https://img.shields.io/amo/stars/custom-bookmark-favicon)
+<a href="https://addons.mozilla.org/en-US/firefox/addon/custom-bookmark-favicon/" style="text-decoration:none">![Mozilla Add-on Version](https://img.shields.io/amo/v/custom-bookmark-favicon)</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/custom-bookmark-favicon/" style="text-decoration:none">![Mozilla Add-on Stars](https://img.shields.io/amo/stars/custom-bookmark-favicon)</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/custom-bookmark-favicon/" style="text-decoration:none">![](https://img.shields.io/amo/users/custom-bookmark-favicon?label=daily%20users)</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/custom-bookmark-favicon/" style="text-decoration:none">![Mozilla Add-on Downloads](https://img.shields.io/amo/dw/custom-bookmark-favicon)</a>
 
 ## Install
 You can install this add-on from the official `addons.mozilla.org` listing: [Custom Bookmark Favicon](https://addons.mozilla.org/en-US/firefox/addon/custom-bookmark-favicon/)
